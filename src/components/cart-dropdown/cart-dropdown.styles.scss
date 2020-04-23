@@ -17,7 +17,12 @@
     flex-direction: column;
 
     // TODO: MAKE THIS NOT LOOK LIKE SHIT IN WINDOWS
-    overflow: scroll;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+      -ms-overflow-style: none;
+    }
   }
 
   button {
