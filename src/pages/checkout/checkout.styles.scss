@@ -29,3 +29,21 @@
     font-size: 36px;
   }
 }
+
+.testing-info {
+  text-align: center;
+  color: #666;
+  margin: 2rem 0 1rem 0;
+
+  p {
+
+    &:first-child {
+      margin-bottom: .3rem;
+      color: red;
+      font-size: .8rem;
+    }
+
+    font-family: monospace;
+    font-size: 0.7rem;
+  }
+}
