@@ -6,7 +6,12 @@ import {
   createUserProfileDocument,
   getCurrentUser,
 } from "../../firebase/firebase.utils";
-import { signInFailure, signInSuccess } from "./user.actions";
+import {
+  signInFailure,
+  signInSuccess,
+  signOutFailure,
+  signOutSuccess,
+} from "./user.actions";
 
 function* getSnapshotFromUserAuth(userAuth) {
   try {
@@ -52,7 +57,6 @@ export function* isUserAuthenticated() {
     if (!userAuth) return;
 
     yield getSnapshotFromUserAuth(userAuth);
-    
   } catch (error) {
     yield put(signInFailure(error));
   }
@@ -62,10 +66,24 @@ export function* onCheckUserSession() {
   yield takeLatest(userActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
 
+export function* signOut() {
+  try {
+    yield auth.signOut();
+    yield put(signOutSuccess());
+  } catch (error) {
+    yield put(signOutFailure(error));
+  }
+}
+
+export function* onSignOutStart() {
+  yield takeLatest(userActionTypes.SIGN_OUT_START, signOut);
+}
+
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(isUserAuthenticated),
+    call(onSignOutStart),
   ]);
 }
